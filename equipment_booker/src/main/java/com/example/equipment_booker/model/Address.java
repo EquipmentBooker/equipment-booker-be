@@ -1,5 +1,6 @@
 package com.example.equipment_booker.model;
 
+import com.example.equipment_booker.dto.AddressDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,4 +38,12 @@ public class Address {
     @Column(name = "latitude")
     private double latitude;
 
+    public Address(AddressDTO address) {
+        this.street = address.getStreet();
+        this.number = address.getNumber();
+        this.city = address.getCity();
+        this.country = address.getCountry();
+        this.longitude = address.getLongitude();
+        this.latitude = address.getLatitude();
+    }
 }
