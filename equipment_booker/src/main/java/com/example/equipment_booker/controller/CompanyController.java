@@ -1,7 +1,9 @@
 package com.example.equipment_booker.controller;
 
 import com.example.equipment_booker.dto.CompanyDTO;
+import com.example.equipment_booker.dto.EquipmentDTO;
 import com.example.equipment_booker.model.Company;
+import com.example.equipment_booker.model.Equipment;
 import com.example.equipment_booker.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,7 @@ public class CompanyController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Company> getCompany(@PathVariable Long id) {
+    public ResponseEntity<CompanyDTO> getCompany(@PathVariable Long id) {
 
         Company company = companyService.findOne(id);
 
@@ -41,7 +43,9 @@ public class CompanyController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(companyService.findOne(id), HttpStatus.OK);
+        CompanyDTO companyDTO = new CompanyDTO(company);
+
+        return new ResponseEntity<>(companyDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/findNameOrLocation")
