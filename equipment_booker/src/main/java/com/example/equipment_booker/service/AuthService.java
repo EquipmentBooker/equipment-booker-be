@@ -1,14 +1,22 @@
 package com.example.equipment_booker.service;
 
+import com.example.equipment_booker.dto.JwtAuthenticationRequest;
+import com.example.equipment_booker.dto.JwtAuthenticationResponse;
 import com.example.equipment_booker.model.RegisteredUser;
 import com.example.equipment_booker.repository.RegisteredUserRepository;
+import com.example.equipment_booker.security.service.CustomUserDetailsService;
+import com.example.equipment_booker.security.service.JwtService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
@@ -16,6 +24,9 @@ public class AuthService {
     private JavaMailSender javaMailSender;
     @Autowired
     private Environment env;
+    private final AuthenticationManager authenticationManager;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtService jwtService;
 
 
     public void sendConfirmationEmail(RegisteredUser registeredUser) {
@@ -36,5 +47,18 @@ public class AuthService {
             return true;
         }
         return false;
+    }
+
+    public JwtAuthenticationResponse authenticate(JwtAuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        var user = customUserDetailsService.loadUserByUsername(request.getEmail());
+        var accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        return new JwtAuthenticationResponse(accessToken, refreshToken);
     }
 }
