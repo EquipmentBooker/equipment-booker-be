@@ -1,7 +1,6 @@
 package com.example.equipment_booker.controller;
 
 import com.example.equipment_booker.dto.RegisteredUserDTO;
-import com.example.equipment_booker.model.Address;
 import com.example.equipment_booker.model.RegisteredUser;
 import com.example.equipment_booker.service.RegisteredUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/registered_users")
 public class RegisteredUserController {
 
@@ -31,5 +29,32 @@ public class RegisteredUserController {
         }
 
         return new ResponseEntity<>(registeredUsersDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<RegisteredUserDTO> getRegisteredUser(@PathVariable Long id) {
+
+        RegisteredUser registeredUser = registeredUserService.findOne(id);
+
+        if (registeredUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUser);
+
+        return new ResponseEntity<>(registeredUserDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/email/{email}")
+    public ResponseEntity<RegisteredUserDTO> getRegisteredUserByEmail(@PathVariable String email) {
+        RegisteredUser registeredUser = registeredUserService.findByEmail(email);
+
+        if (registeredUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        RegisteredUserDTO registeredUserDTO = new RegisteredUserDTO(registeredUser);
+
+        return new ResponseEntity<>(registeredUserDTO, HttpStatus.OK);
     }
 }
