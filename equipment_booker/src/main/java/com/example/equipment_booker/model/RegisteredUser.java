@@ -15,8 +15,12 @@ import lombok.Setter;
 public class RegisteredUser extends User {
     @Column(name = "confirmation_token")
     private String confirmationToken;
+
     @Column(name = "is_activated")
     private boolean isActivated;
+
+    //@Column(name = "penalties")
+    //private int penalties;
 
     public RegisteredUser() {}
 }
