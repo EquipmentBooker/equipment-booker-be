@@ -1,5 +1,6 @@
 package com.example.equipment_booker.model;
 
+import com.example.equipment_booker.dto.CompanyAdministratorDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,4 +44,16 @@ public abstract class User {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+
+    public User(CompanyAdministratorDTO companyAdministratorDTO) {
+        this.id = companyAdministratorDTO.getId();
+        this.name = companyAdministratorDTO.getName();
+        this.surname = companyAdministratorDTO.getSurname();
+        this.email = companyAdministratorDTO.getEmail();
+        this.password = companyAdministratorDTO.getPassword();
+        this.phoneNumber = companyAdministratorDTO.getPhoneNumber();
+        this.profession = companyAdministratorDTO.getProfession();
+        this.companyInfo = companyAdministratorDTO.getCompanyInfo();
+        this.address = new Address(companyAdministratorDTO.getAddress());
+    }
 }

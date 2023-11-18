@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,8 +30,14 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers( "/api/companies/**").permitAll()
-                .requestMatchers("/api/registered_users/email/**").hasRole("REGISTERED_USER")
+                .requestMatchers( "/api/companies").permitAll()
+                .requestMatchers("/api/registered_users/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/registered_users/email/**").hasRole("REGISTERED_USER")
+                .requestMatchers(HttpMethod.GET, "/api/companies/**").hasRole("REGISTERED_USER")
+                .requestMatchers("/api/company_administrators/**").permitAll()
+                .requestMatchers("/api/predefined_terms/**").permitAll()
+                .requestMatchers(HttpMethod.GET,"/api/predefined_terms/company/**").hasRole("REGISTERED_USER")
+                .requestMatchers("/api/company_administrators/email/**").hasRole("COMPANY_ADMINISTRATOR")
                 .anyRequest()
                 .authenticated()
                 .and()
