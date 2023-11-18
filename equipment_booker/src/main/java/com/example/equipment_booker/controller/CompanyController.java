@@ -1,9 +1,7 @@
 package com.example.equipment_booker.controller;
 
 import com.example.equipment_booker.dto.CompanyDTO;
-import com.example.equipment_booker.dto.EquipmentDTO;
 import com.example.equipment_booker.model.Company;
-import com.example.equipment_booker.model.Equipment;
 import com.example.equipment_booker.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

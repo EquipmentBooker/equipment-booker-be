@@ -1,6 +1,8 @@
 package com.example.equipment_booker.security.service;
 
+import com.example.equipment_booker.model.CompanyAdministrator;
 import com.example.equipment_booker.model.RegisteredUser;
+import com.example.equipment_booker.service.CompanyAdministratorService;
 import com.example.equipment_booker.service.RegisteredUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,11 +18,13 @@ import java.util.Collection;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final RegisteredUserService registeredUserService;
+    private final CompanyAdministratorService companyAdministratorService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         RegisteredUser registeredUser = registeredUserService.findByEmail(username);
-        if (registeredUser == null) {
+        CompanyAdministrator companyAdministrator = companyAdministratorService.findByEmail(username);
+        if (registeredUser == null && companyAdministrator == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
             return new UserDetails() {
@@ -29,6 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                     var authorities = new ArrayList<GrantedAuthority>();
                     if (registeredUser != null) {
                         authorities.add(new SimpleGrantedAuthority("ROLE_REGISTERED_USER"));
+                    } else if (companyAdministrator != null) {
+                        authorities.add(new SimpleGrantedAuthority("ROLE_COMPANY_ADMINISTRATOR"));
                     }
 
                     return authorities;
@@ -38,6 +44,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 public String getPassword() {
                     if (registeredUser != null) {
                         return registeredUser.getPassword();
+                    } else if (companyAdministrator != null) {
+                        return companyAdministrator.getPassword();
                     }
                     return registeredUser.getPassword();
                 }
@@ -46,6 +54,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                 public String getUsername() {
                     if (registeredUser != null) {
                         return registeredUser.getEmail();
+                    } else if (companyAdministrator != null) {
+                        return companyAdministrator.getEmail();
                     }
                     return registeredUser.getEmail();
                 }
