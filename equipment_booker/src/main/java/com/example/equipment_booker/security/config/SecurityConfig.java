@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .requestMatchers( "/api/companies").permitAll()
                 .requestMatchers("/api/registered_users/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/registered_users/email/**").hasRole("REGISTERED_USER")
-                .requestMatchers(HttpMethod.GET, "/api/companies/**").hasRole("REGISTERED_USER")
+                .requestMatchers(HttpMethod.GET, "/api/companies/**").permitAll()
                 .requestMatchers("/api/company_administrators/**").permitAll()
                 .requestMatchers("/api/predefined_terms/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"/api/predefined_terms/company/**").hasRole("REGISTERED_USER")
