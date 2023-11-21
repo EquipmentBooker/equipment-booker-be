@@ -1,5 +1,6 @@
 package com.example.equipment_booker.model;
 
+import com.example.equipment_booker.dto.TermDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,4 +46,14 @@ public class Term {
 
     @OneToMany(mappedBy = "term", fetch = FetchType.LAZY)
     private List<TermEquipment> termEquipment = new ArrayList<>();
+
+    public Term(TermDTO term) {
+        this.id = term.getId();
+        this.startTime = term.getStartTime();
+        this.duration = term.getDuration();
+        this.status = term.getStatus();
+        this.isPredefined = term.isPredefined();
+        this.companyAdministrator = new CompanyAdministrator(term.getCompanyAdministrator());
+        this.registeredUser = new RegisteredUser(term.getRegisteredUser());
+    }
 }

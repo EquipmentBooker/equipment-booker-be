@@ -15,4 +15,8 @@ public interface TermRepository extends JpaRepository<Term, Long> {
             "join t.registeredUser ru join t.termEquipment te " +
             "where ru.id = :registeredUserId and t.startTime > :currentDateTime and t.status = :status")
     List<Term> findScheduledTermsByRegisteredUserId(@Param("registeredUserId") Long registeredUserId, @Param("currentDateTime") LocalDateTime currentDateTime, @Param("status") String status);
+    @Query("select t from Term t " +
+            "join t.registeredUser ru join t.termEquipment te " +
+            "where ru.id = :registeredUserId and t.startTime < :currentDateTime and t.status = :status")
+    List<Term> findPastScheduledTermsByRegisteredUserId(@Param("registeredUserId") Long registeredUserId, @Param("currentDateTime") LocalDateTime currentDateTime, @Param("status") String status);
 }

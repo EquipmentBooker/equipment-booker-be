@@ -42,6 +42,7 @@ public class AuthController {
         registeredUser.setConfirmationToken(UUID.randomUUID().toString());
         registeredUser.setActivated(registeredUserDTO.isActivated());
         registeredUser.setAddress(new Address(registeredUserDTO.getAddress()));
+        registeredUser.setPenalties(0);
 
         RegisteredUser existUser = registeredUserService.findByEmail(registeredUser.getEmail());
 
