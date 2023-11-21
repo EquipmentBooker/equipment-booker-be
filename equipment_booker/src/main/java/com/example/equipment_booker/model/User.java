@@ -1,6 +1,7 @@
 package com.example.equipment_booker.model;
 
 import com.example.equipment_booker.dto.CompanyAdministratorDTO;
+import com.example.equipment_booker.dto.RegisteredUserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,5 +56,17 @@ public abstract class User {
         this.profession = companyAdministratorDTO.getProfession();
         this.companyInfo = companyAdministratorDTO.getCompanyInfo();
         this.address = new Address(companyAdministratorDTO.getAddress());
+    }
+
+    public User(RegisteredUserDTO registeredUser) {
+        this.id = registeredUser.getId();
+        this.name = registeredUser.getName();
+        this.surname = registeredUser.getSurname();
+        this.email = registeredUser.getEmail();
+        this.password = registeredUser.getPassword();
+        this.phoneNumber = registeredUser.getPhoneNumber();
+        this.profession = registeredUser.getProfession();
+        this.companyInfo = registeredUser.getCompanyInfo();
+        this.address = new Address(registeredUser.getAddress());
     }
 }

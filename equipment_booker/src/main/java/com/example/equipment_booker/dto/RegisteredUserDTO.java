@@ -24,6 +24,7 @@ public class RegisteredUserDTO {
     private String confirmationToken;
     private boolean isActivated;
     private AddressDTO address;
+    private int penalties;
 
     public RegisteredUserDTO(RegisteredUser registeredUser) {
         this.id = registeredUser.getId();
@@ -37,5 +38,6 @@ public class RegisteredUserDTO {
         this.confirmationToken = registeredUser.getConfirmationToken();
         this.isActivated = registeredUser.isActivated();
         this.address = new AddressDTO(registeredUser.getAddress());
+        this.penalties = registeredUser.getPenalties();
     }
 }

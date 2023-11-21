@@ -22,4 +22,7 @@ public class TermEquipmentService {
     public List<TermEquipment> findByTermId(Long termId) {
         return termEquipmentRepository.findTermEquipmentByTermId(termId);
     }
+    public void remove(Long id) {
+        termEquipmentRepository.deleteById(id);
+    }
 }
