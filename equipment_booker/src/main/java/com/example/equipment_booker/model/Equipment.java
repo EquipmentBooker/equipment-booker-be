@@ -1,5 +1,6 @@
 package com.example.equipment_booker.model;
 
+import com.example.equipment_booker.dto.EquipmentDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,4 +35,13 @@ public class Equipment {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
+
+    public Equipment(EquipmentDTO e) {
+        this.id = e.getId();
+        this.name = e.getName();
+        this.type = e.getType();
+        this.description = e.getDescription();
+        this.quantity = e.getQuantity();
+        this.company = new Company(e.getCompany());
+    }
 }
