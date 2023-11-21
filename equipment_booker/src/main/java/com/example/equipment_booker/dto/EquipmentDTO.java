@@ -1,6 +1,7 @@
 package com.example.equipment_booker.dto;
 
 import com.example.equipment_booker.model.Equipment;
+import com.example.equipment_booker.model.TermEquipment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

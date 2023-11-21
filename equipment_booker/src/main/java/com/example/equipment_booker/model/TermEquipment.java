@@ -3,11 +3,15 @@ package com.example.equipment_booker.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name="term_equipment")
 public class TermEquipment {
 
     @Id
@@ -23,6 +27,6 @@ public class TermEquipment {
     private Equipment equipment;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "term_id")
+    @JoinColumn(name = "term_id", referencedColumnName = "id")
     private Term term;
 }

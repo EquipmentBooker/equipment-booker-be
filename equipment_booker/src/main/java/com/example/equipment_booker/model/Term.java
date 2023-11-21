@@ -14,6 +14,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name="terms")
 public class Term {
 
     @Id
@@ -30,6 +32,9 @@ public class Term {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "is_predefined")
+    private boolean isPredefined;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_administrator_id", referencedColumnName = "id")
     private CompanyAdministrator companyAdministrator;
@@ -38,6 +43,6 @@ public class Term {
     @JoinColumn(name = "registered_user_id", referencedColumnName = "id")
     private RegisteredUser registeredUser;
 
-    @OneToMany(mappedBy = "term", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "term", fetch = FetchType.LAZY)
     private List<TermEquipment> termEquipment = new ArrayList<>();
 }
