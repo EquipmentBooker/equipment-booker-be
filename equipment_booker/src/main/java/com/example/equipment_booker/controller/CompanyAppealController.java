@@ -7,6 +7,7 @@ import com.example.equipment_booker.model.CompanyAppeal;
 import com.example.equipment_booker.service.CompanyAppealService;
 import com.example.equipment_booker.service.CompanyService;
 import com.example.equipment_booker.service.RegisteredUserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "api/appeals")
+@SecurityRequirement(name = "bearerAuth")
 public class CompanyAppealController {
     @Autowired
     private CompanyAppealService companyAppealService;

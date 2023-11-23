@@ -3,6 +3,7 @@ package com.example.equipment_booker.controller;
 import com.example.equipment_booker.dto.RegisteredUserDTO;
 import com.example.equipment_booker.model.RegisteredUser;
 import com.example.equipment_booker.service.RegisteredUserService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/registered_users")
+@SecurityRequirement(name = "bearerAuth")
 public class RegisteredUserController {
 
     @Autowired
