@@ -6,6 +6,7 @@ import com.example.equipment_booker.service.EquipmentService;
 import com.example.equipment_booker.service.RegisteredUserService;
 import com.example.equipment_booker.service.TermEquipmentService;
 import com.example.equipment_booker.service.TermService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "api/terms")
+@SecurityRequirement(name = "bearerAuth")
 public class TermController {
 
     @Autowired

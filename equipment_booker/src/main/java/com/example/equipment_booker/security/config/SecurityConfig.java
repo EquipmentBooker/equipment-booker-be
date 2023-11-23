@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST,"/api/company_administrator_appeals").hasRole("REGISTERED_USER")
                 .requestMatchers(HttpMethod.GET,"/api/company_administrator_appeals").hasRole("SYSTEM_ADMINISTRATOR")
                 .requestMatchers(HttpMethod.PUT,"/api/company_administrator_appeals/**").hasRole("SYSTEM_ADMINISTRATOR")
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
