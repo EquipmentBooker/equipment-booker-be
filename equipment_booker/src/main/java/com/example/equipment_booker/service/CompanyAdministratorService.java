@@ -2,6 +2,7 @@ package com.example.equipment_booker.service;
 
 import com.example.equipment_booker.model.CompanyAdministrator;
 import com.example.equipment_booker.model.RegisteredUser;
+import com.example.equipment_booker.model.Term;
 import com.example.equipment_booker.repository.CompanyAdministratorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,9 @@ public class CompanyAdministratorService {
     }
     public CompanyAdministrator findByEmail(String email) {
         return companyAdministratorRepository.findByEmail(email);
+    }
+
+    public CompanyAdministrator findOne(Long id) {
+        return companyAdministratorRepository.findById(id).orElseGet(null);
     }
 }
