@@ -3,6 +3,7 @@ package com.example.equipment_booker.security.config;
 import com.example.equipment_booker.security.service.CustomUserDetailsService;
 import com.example.equipment_booker.service.CompanyAdministratorService;
 import com.example.equipment_booker.service.RegisteredUserService;
+import com.example.equipment_booker.service.SystemAdministratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class Config {
     private final RegisteredUserService registeredUserService;
     private final CompanyAdministratorService companyAdministratorService;
+    private final SystemAdministratorService systemAdministratorService;
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService(registeredUserService, companyAdministratorService);
+        return new CustomUserDetailsService(registeredUserService, companyAdministratorService, systemAdministratorService);
     }
 
     @Bean
