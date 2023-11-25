@@ -6,7 +6,6 @@ import com.example.equipment_booker.dto.PredefinedTermDTO;
 import com.example.equipment_booker.dto.SchedulePredefinedTermDTO;
 import com.example.equipment_booker.model.*;
 import com.example.equipment_booker.service.*;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,6 @@ public class PredefinedTermController {
     }
 
     @GetMapping(value = "/company/{companyId}")
-    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<PredefinedTermDTO>> getFreePredefinedTerms(@PathVariable Long companyId) {
 
         List<PredefinedTerm> predefinedTerms = predefinedTermService.findFreePredefinedTermsByCompanyId(companyId, LocalDateTime.now(), "FREE");
@@ -59,7 +57,6 @@ public class PredefinedTermController {
     }
 
     @PutMapping(value = "/schedule/{predefinedTermId}", consumes = "application/json")
-    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<PredefinedTermDTO> schedulePredefinedTerm(@RequestBody SchedulePredefinedTermDTO schedulePredefinedTermDTO, @PathVariable Long predefinedTermId) throws Exception {
 
         PredefinedTerm predefinedTerm = predefinedTermService.findOne(schedulePredefinedTermDTO.getPredefinedTerm().getId());
