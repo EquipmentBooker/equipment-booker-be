@@ -7,7 +7,6 @@ import com.example.equipment_booker.model.Company;
 import com.example.equipment_booker.model.CompanyAdministrator;
 import com.example.equipment_booker.model.RegisteredUser;
 import com.example.equipment_booker.service.CompanyAdministratorService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,7 +59,6 @@ public class CompanyAdministratorController {
     }
 
     @GetMapping(value = "/email/{email}")
-    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<CompanyAdministratorDTO> getCompanyAdministratorByEmail(@PathVariable String email) {
         CompanyAdministrator companyAdministrator = companyAdministratorService.findByEmail(email);
 
