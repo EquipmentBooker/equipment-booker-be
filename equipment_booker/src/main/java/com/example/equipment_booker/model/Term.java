@@ -47,6 +47,9 @@ public class Term {
     @OneToMany(mappedBy = "term", fetch = FetchType.LAZY)
     private List<TermEquipment> termEquipment = new ArrayList<>();
 
+    @Version
+    private Integer version;
+
     public Term(TermDTO term) {
         this.id = term.getId();
         this.startTime = term.getStartTime();

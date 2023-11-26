@@ -32,4 +32,7 @@ public class CompanyAdministratorAppeal {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_administrator_id")
     private CompanyAdministrator companyAdministrator;
+
+    @Version
+    private Integer version;
 }

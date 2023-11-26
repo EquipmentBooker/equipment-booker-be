@@ -62,9 +62,12 @@ public class CompanyAppealController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        companyAppeal.setAnswer(companyAppealDTO.getAnswer());
-
-        companyAppeal = companyAppealService.save(companyAppeal);
+        try {
+            companyAppeal.setAnswer(companyAppealDTO.getAnswer());
+            companyAppeal = companyAppealService.update(companyAppeal);
+        } catch (RuntimeException ex) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
         companyAppealService.sendEmailWithAnswer(companyAppeal);
         return new ResponseEntity<>(new CompanyAppealDTO(companyAppeal), HttpStatus.OK);

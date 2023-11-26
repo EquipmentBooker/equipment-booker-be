@@ -10,6 +10,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TermService {
 
     @Autowired
@@ -28,7 +30,7 @@ public class TermService {
     private JavaMailSender javaMailSender;
     @Autowired
     private Environment env;
-
+    @Transactional(readOnly = false)
     public Term save(Term term) {
         return termRepository.save(term);
     }
