@@ -32,4 +32,7 @@ public class PredefinedTerm {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_administrator_id", referencedColumnName = "id")
     private CompanyAdministrator companyAdministrator;
+
+    @Version
+    private Integer version;
 }

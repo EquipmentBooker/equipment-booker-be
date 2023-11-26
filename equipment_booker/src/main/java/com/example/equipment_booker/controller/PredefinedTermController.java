@@ -30,11 +30,23 @@ public class PredefinedTermController {
     private TermEquipmentService termEquipmentService;
     @Autowired
     private EquipmentService equipmentService;
+    @Autowired
+    private CompanyAdministratorService companyAdministratorService;
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PredefinedTermDTO> savePredefinedTerm(@RequestBody PredefinedTermDTO predefinedTermDTO) {
+        List<PredefinedTerm> overlappingTerms = predefinedTermService.findOverlappingTerms(
+                companyAdministratorService.findOne(predefinedTermDTO.getCompanyAdministrator().getId()),
+                predefinedTermDTO.getStartTime(),
+                predefinedTermDTO.getStartTime().plusMinutes(predefinedTermDTO.getDuration())
+        );
+
+        if (!overlappingTerms.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         PredefinedTerm predefinedTerm = new PredefinedTerm();
-        predefinedTerm.setStartTime(LocalDateTime.now());
+        predefinedTerm.setStartTime(predefinedTermDTO.getStartTime());
         predefinedTerm.setDuration(predefinedTermDTO.getDuration());
         predefinedTerm.setStatus("FREE");
         predefinedTerm.setCompanyAdministrator(new CompanyAdministrator(predefinedTermDTO.getCompanyAdministrator()));
@@ -65,9 +77,12 @@ public class PredefinedTermController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        predefinedTerm.setStatus("SCHEDULED");
+        if (!"FREE".equals(predefinedTerm.getStatus())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
 
-        predefinedTerm = predefinedTermService.save(predefinedTerm);
+        predefinedTerm.setStatus("SCHEDULED");
+        predefinedTerm = predefinedTermService.update(predefinedTerm);
 
         Term term = new Term();
         term.setDuration(schedulePredefinedTermDTO.getPredefinedTerm().getDuration());

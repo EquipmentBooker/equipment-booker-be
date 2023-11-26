@@ -12,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,6 +26,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PredefinedTermService {
 
     @Autowired
@@ -32,7 +35,7 @@ public class PredefinedTermService {
     private JavaMailSender javaMailSender;
     @Autowired
     private Environment env;
-
+    @Transactional(readOnly = false)
     public PredefinedTerm save(PredefinedTerm predefinedTerm) {
         return predefinedTermRepository.save(predefinedTerm);
     }
@@ -73,5 +76,13 @@ public class PredefinedTermService {
         helper.setText("Scan your QR code in attachment to see informations about reserved term.");
         helper.addAttachment("qrcode.png", new ByteArrayResource(qrCodeBytes), "image/png");
         javaMailSender.send(message);
+    }
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public PredefinedTerm update(PredefinedTerm predefinedTerm) {
+        return predefinedTermRepository.save(predefinedTerm);
+    }
+
+    public List<PredefinedTerm> findOverlappingTerms(CompanyAdministrator companyAdministrator, LocalDateTime startTime, LocalDateTime endTime) {
+        return predefinedTermRepository.findOverlappingTerms(companyAdministrator, startTime, endTime);
     }
 }
