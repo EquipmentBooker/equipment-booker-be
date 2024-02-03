@@ -55,4 +55,9 @@ public class CompanyAdministratorAppealService {
             throw new RuntimeException("Appeal is being updated by another administrator. Please try again.");
         }
     }
+
+    public List<CompanyAdministratorAppeal> findAppealsByRegisteredUserId(Long registeredUserId) {
+        return companyAdministratorAppealRepository.findAppealsByRegisteredUserId(registeredUserId);
+    }
+
 }

@@ -1,9 +1,6 @@
 package com.example.equipment_booker.service;
 
-import com.example.equipment_booker.model.CompanyAdministrator;
-import com.example.equipment_booker.model.CompanyAppeal;
-import com.example.equipment_booker.model.RegisteredUser;
-import com.example.equipment_booker.model.Term;
+import com.example.equipment_booker.model.*;
 import com.example.equipment_booker.repository.CompanyAppealRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +52,9 @@ public class CompanyAppealService {
         } catch (OptimisticLockingFailureException ex) {
             throw new RuntimeException("Appeal is being updated by another administrator. Please try again.");
         }
+    }
+
+    public List<CompanyAppeal> findAppealsByRegisteredUserId(Long registeredUserId) {
+        return companyAppealRepository.findAppealsByRegisteredUserId(registeredUserId);
     }
 }
