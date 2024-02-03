@@ -73,4 +73,17 @@ public class CompanyAdministratorAppealController {
         companyAdministratorAppealService.sendEmailWithAnswer(companyAdministratorAppeal);
         return new ResponseEntity<>(new CompanyAdministratorAppealDTO(companyAdministratorAppeal), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/registeredUser/{registeredUserId}")
+    public ResponseEntity<List<CompanyAdministratorAppealDTO>> getRegisteredUserAppeals(@PathVariable Long registeredUserId) {
+
+        List<CompanyAdministratorAppeal> companyAdministratorAppeals = companyAdministratorAppealService.findAppealsByRegisteredUserId(registeredUserId);
+
+        List<CompanyAdministratorAppealDTO> companyAdministratorAppealsDTO = new ArrayList<>();
+        for (CompanyAdministratorAppeal caa: companyAdministratorAppeals) {
+            companyAdministratorAppealsDTO.add(new CompanyAdministratorAppealDTO(caa));
+        }
+
+        return new ResponseEntity<>(companyAdministratorAppealsDTO, HttpStatus.OK);
+    }
 }

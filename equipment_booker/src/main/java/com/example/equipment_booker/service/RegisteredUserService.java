@@ -5,6 +5,7 @@ import com.example.equipment_booker.model.RegisteredUser;
 import com.example.equipment_booker.repository.RegisteredUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public class RegisteredUserService {
     @Autowired
     private RegisteredUserRepository registeredUserRepository;
-
+    @Cacheable("user")
     public RegisteredUser findByEmail(String email) {
         return registeredUserRepository.findByEmail(email);
     }

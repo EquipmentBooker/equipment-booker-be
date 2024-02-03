@@ -1,7 +1,9 @@
 package com.example.equipment_booker.security.config;
 
 import com.example.equipment_booker.security.filter.JwtAuthenticationFilter;
+import com.example.equipment_booker.service.RegisteredUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -29,6 +31,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/socket/**").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers( "/api/companies").permitAll()
                 .requestMatchers("/api/registered_users/**").permitAll()
@@ -48,10 +51,12 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/system_administrators/**").permitAll()
                 .requestMatchers("/api/system_administrators/email/**").hasRole("SYSTEM_ADMINISTRATOR")
                 .requestMatchers(HttpMethod.GET,"/api/appeals").hasRole("SYSTEM_ADMINISTRATOR")
+                .requestMatchers(HttpMethod.GET,"/api/appeals/registeredUser/**").hasRole("REGISTERED_USER")
                 .requestMatchers(HttpMethod.PUT,"/api/appeals/**").hasRole("SYSTEM_ADMINISTRATOR")
                 .requestMatchers(HttpMethod.POST,"/api/company_administrator_appeals").hasRole("REGISTERED_USER")
                 .requestMatchers(HttpMethod.GET,"/api/company_administrator_appeals").hasRole("SYSTEM_ADMINISTRATOR")
                 .requestMatchers(HttpMethod.PUT,"/api/company_administrator_appeals/**").hasRole("SYSTEM_ADMINISTRATOR")
+                .requestMatchers(HttpMethod.GET,"/api/company_administrator_appeals/registeredUser/**").hasRole("REGISTERED_USER")
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 .anyRequest()
                 .authenticated()

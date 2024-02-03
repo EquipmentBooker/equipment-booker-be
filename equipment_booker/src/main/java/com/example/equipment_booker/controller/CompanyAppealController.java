@@ -1,8 +1,10 @@
 package com.example.equipment_booker.controller;
 
+import com.example.equipment_booker.dto.CompanyAdministratorAppealDTO;
 import com.example.equipment_booker.dto.CompanyAdministratorDTO;
 import com.example.equipment_booker.dto.CompanyAppealDTO;
 import com.example.equipment_booker.model.CompanyAdministrator;
+import com.example.equipment_booker.model.CompanyAdministratorAppeal;
 import com.example.equipment_booker.model.CompanyAppeal;
 import com.example.equipment_booker.service.CompanyAppealService;
 import com.example.equipment_booker.service.CompanyService;
@@ -71,5 +73,18 @@ public class CompanyAppealController {
 
         companyAppealService.sendEmailWithAnswer(companyAppeal);
         return new ResponseEntity<>(new CompanyAppealDTO(companyAppeal), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/registeredUser/{registeredUserId}")
+    public ResponseEntity<List<CompanyAppealDTO>> getRegisteredUserAppeals(@PathVariable Long registeredUserId) {
+
+        List<CompanyAppeal> companyAppeals = companyAppealService.findAppealsByRegisteredUserId(registeredUserId);
+
+        List<CompanyAppealDTO> companyAppealsDTO = new ArrayList<>();
+        for (CompanyAppeal caa: companyAppeals) {
+            companyAppealsDTO.add(new CompanyAppealDTO(caa));
+        }
+
+        return new ResponseEntity<>(companyAppealsDTO, HttpStatus.OK);
     }
 }
